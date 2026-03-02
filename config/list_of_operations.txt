@@ -1,0 +1,12 @@
+sale
+refund
+sale
+customerreversal
+sale
+refund
+preauthorization
+completion
+closebatch
+sale
+refund
+sbpsale
