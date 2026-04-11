@@ -1,7 +1,12 @@
-ip_terminal = 192.168.1.39
-cardAcceptorTerminal = PBFTESX5
-QrAcceptorTerminal = FPBF0X05
+ip_terminal = 192.168.1.10
+port = 12346
+cardAcceptorTerminal = PBFTES11
+QrAcceptorTerminal = FPBF0011
 TO = 180
 number_iterations_autotests = 2
-Terminal = FPBF0X05
-Terminal = PBFTESX5
+
+
+Terminal = FPBF0011
+Terminal = PBFTES11
+
+

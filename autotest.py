@@ -9,7 +9,7 @@ import time
 # Получаем логгер
 logger = get_logger()
 
-
+# Программа автотестов
 if __name__ == "__main__":
 
     logger.info("=== СТАРТ АВТОТЕСТОВ ===\n")
@@ -22,16 +22,12 @@ if __name__ == "__main__":
     logger.info(f'Количество итераций: {number_iterations_autotests - 1}')
 
     iterations = 1
-
-    url = '192.168.1.39'
     
-    client = ApiClient(url)
-    logger.info(f'Инициализирован клиент для {url}')
+    client = ApiClient()
 
     parser = OpenApiParser('config/operation.yaml')
     logger.info(f'Документация успешно считана')
     logger.info(f'=== ЗАПУСК СЦЕНАРИЯ ТЕСТИРОВАНИЯ ===')
-
 
     while iterations < number_iterations_autotests:
         logger.info(f'=== ИТЕРАЦИЯ {iterations} СТАРТ ===')
@@ -75,18 +71,13 @@ if __name__ == "__main__":
                     time.sleep(10)
 
             except ValueError as e:
-                print(f'ОшибкЧто то пошли не так, повторите (╬ Ò﹏Ó){e}')
-                logger.error(f'ОшибкЧто то пошли не так, повторите (╬ Ò﹏Ó) {e}')
-
-            
+                print(f'Что то пошли не так, повторите. Скорее всего такой {operation} не существует. ¯\(°_o)/¯')
+                logger.error(f'Что то пошли не так, повторите. Скорее всего такой {operation} не существует. ¯\(°_o)/¯ {e}')
 
         logger.info(f'=== ИТЕРАЦИЯ {iterations} ФИНИШ ===')
         logger.info('=' * 60)
         
-
         iterations += 1
-
-        print("=" * 60)
 
 
 

@@ -8,8 +8,8 @@ if __name__ == "__main__":
 
     
     client = ApiClient()
-    parser = OpenApiParser('config/operation.yaml')
 
+    parser = OpenApiParser('config/operation.yaml')
 
     while True:
 

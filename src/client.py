@@ -10,18 +10,20 @@ logger = get_logger()
 # Класс для отправки запросов на терминал
 class ApiClient:
 
-    def __init__(self, ip_address: str = None, timeout: int = None):
+    def __init__(self, ip_address: str = None, timeout: int = None, port: str = None):
         
         # Получаем значения из настроек, если они не переданы
         if ip_address is None:
             ip_address = defining_value_variable('ip_terminal')
-            
+        
+        if port is None:
+            port = defining_value_variable('port')
         
         if timeout is None:
             timeout = int(defining_value_variable('TO'))
 
         # Формируем базовый URL с фиксированным портом и эндпоинтом
-        self.base_url = f"http://{ip_address}:12346/api/1/ecr/transaction"
+        self.base_url = f"http://{ip_address}:{port}/api/1/ecr/transaction"
         self.timeout = timeout
 
         # Сохраняем последний ответ для возможности использования его полей

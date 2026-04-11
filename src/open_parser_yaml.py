@@ -30,7 +30,7 @@ class OpenApiParser:
             if not post:
                 continue
             print(post["responses"]["200"]["content"]["application/json"]["schema"])
-
+            
             
 
     def get_response_schema2(self, operation: str, activation_type: str = None):
