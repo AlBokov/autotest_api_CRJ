@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
             try:
                 operation_request = parser.build_request_example(operation, activate)
-                print(f"=== Операция {operation} запущена ===\n")
+                print(f"=== Операция {operation} запущена ===")
                 print('=== Запрос ===:')
                 print((yaml.dump(operation_request, allow_unicode=True, sort_keys=False)))
 
@@ -43,7 +43,8 @@ if __name__ == "__main__":
                     receipt = response['response']['receiptData']
                     client.format_receipt(response['response']['receiptData'])
                 except KeyError:
-                    print("⚠️ Поле receiptData не найдено в ответе")
+                    print("Поле receiptData не найдено в ответе")
+                    print()
                     receipt = None
                     # Можно посмотреть что есть в ответе
                     if 'response' in response:
@@ -53,12 +54,19 @@ if __name__ == "__main__":
 
                 required_fields = parser.get_response_required_fields(operation)
 
-                check_api_response(response['response'], required_fields)
+                if check_api_response(response['response'], required_fields) == False:
+                    
+                    operation_request = parser.build_request_example("uploadLogs", activate)
+                    print(f'Логи выгруженны из профиля')
 
 
             except ValueError as e:
                 print(f'Ошибка {e}')
 
+            except KeyError as e:
+                print(f"⚠️ WARNING!!! Ошибка подключения к http://127.0.0.1:40101/api/1/ecr/transaction: HTTPConnectionPool(host=''127.0.0.1'') ")
+                print(f'Скорее всего используется не тот ip или port')
+                print()
         
         
         else:

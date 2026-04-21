@@ -10,3 +10,5 @@ closebatch
 sale
 refund
 sbpsale
+closebatch
+uploadLogs

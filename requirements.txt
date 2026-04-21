@@ -1,2 +1,5 @@
-YAML
+dearpygui>=2.2.0
+PyYAML
 requests
+# если понадобится расширения для тем:
+# dearpygui_ext

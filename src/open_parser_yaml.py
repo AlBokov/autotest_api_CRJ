@@ -31,64 +31,6 @@ class OpenApiParser:
                 continue
             print(post["responses"]["200"]["content"]["application/json"]["schema"])
             
-            
-
-    def get_response_schema2(self, operation: str, activation_type: str = None):
-        for path, methods in self.paths.items():
-            post = methods.get("post")
-            if not post:
-                continue
-            
-            try:
-               # 1. Получаем пример запроса
-                example_data = post["requestBody"]["content"]["application/json"]["example"]
-                example_request = example_data.get("request", {})
-                
-                # 2. Проверяем операцию в примере запроса
-                example_operation = example_request.get("operation", "").lower()
-                
-                if example_operation == operation.lower():
-                    
-                    # 3. Для activate проверяем activationType
-                    if operation.lower() == "activate" and activation_type:
-                        example_activation = example_request.get("activationType")
-                        if example_activation != activation_type:
-                            continue 
-                    
-                    # 4. Получаем схему ответа из responses
-                    try:
-                        response_schema = post["responses"]["200"]["content"]["application/json"]["schema"]
-                        
-                        # Может быть прямая схема или ссылка $ref
-                        if "$ref" in response_schema:
-                            ref = response_schema["$ref"]
-                            schema_name = ref.split("/")[-1]
-                            print(f"  📋 Схема ответа: {schema_name} (по ссылке)")
-                            return self.components[schema_name]
-                        else:
-                            print(f"  📋 Схема ответа: прямая схема")
-                            return response_schema
-                            
-                    except KeyError as e:
-                        print(f"  ❌ Нет схемы ответа для {operation}: {e}")
-                        continue
-                        
-            except KeyError as e:
-                # Пропускаем endpoints без example
-                continue
-            except Exception as e:
-                print(f"  ⚠️ Ошибка при обработке {path}: {e}")
-                continue
-        
-        # Если ничего не нашли
-        error_msg = f"Операция '{operation}'"
-        if operation.lower() == "activate" and activation_type:
-            error_msg += f" с типом активации '{activation_type}'"
-        error_msg += " не найдена в спецификации"
-        
-        raise ValueError(error_msg)
-        
-
     # Формируем запрос на основе примера из спецификации для указанной операции. 
     def build_request_example(self, operation: str, activation_type: str = None):
         
@@ -190,6 +132,7 @@ class OpenApiParser:
                 
             except (KeyError, TypeError) as e:
                 # Пропускаем эндпоинты без примера
+                print(f"Операции {operation} нет в документации")
                 continue
 
 
